@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'oracle'),
 
     /*
     |--------------------------------------------------------------------------
@@ -45,6 +45,18 @@ return [
     */
 
     'connections' => [
+
+      'oracle' => [
+          'driver'   => 'oracle',
+          'tns'      => 'DUP06',
+          'host'     => 'orcl_host.lifesouth.net',
+          'port'     => '1521',
+          'database' => 'DUP06',
+          'username' => 'IBBIS',
+          'password' => 'TESTING',
+          'charset'  => 'AL32UTF8',
+          'prefix'   => '',
+      ],
 
         'sqlite' => [
             'driver'   => 'sqlite',

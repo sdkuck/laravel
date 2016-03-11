@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('donors/{lsid?}', 'REG\DonorController@showDonors');
+
+Route::get('dins/{din?}/{flag?}', 'CMP\DINController@showDINs');
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes

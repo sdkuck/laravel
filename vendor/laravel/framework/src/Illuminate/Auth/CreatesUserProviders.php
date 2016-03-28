@@ -36,10 +36,26 @@ trait CreatesUserProviders
                 return $this->createDatabaseProvider($config);
             case 'eloquent':
                 return $this->createEloquentProvider($config);
+            case 'ibbis-auth':
+                return $this->createIBBISAuthProvider($config);
             default:
                 throw new InvalidArgumentException("Authentication user provider [{$config['driver']}] is not defined.");
         }
     }
+
+    /**
+     * Create an instance of the database user provider.
+     *
+     * @param  array  $config
+     * @return \Illuminate\Auth\IBBISUserProvider
+     */
+    protected function createIBBISAuthProvider($config)
+    {
+        $connection = $this->app['db']->connection();
+
+        return new \App\IBBIS\IBBISUserProvider($connection, $this->app['hash'], $config['table']);
+    }
+
 
     /**
      * Create an instance of the database user provider.

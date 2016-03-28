@@ -2,6 +2,7 @@
 
 namespace App\IBBIS;
 
+use Yajra\Oci8\Connectors as Oracle;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Database\ConnectionInterface;
@@ -54,9 +55,10 @@ class IBBISUserProvider implements UserProvider
      */
     public function retrieveById($identifier)
     {
-        $user = $this->conn->table($this->table)->find($identifier);
+//        $user = $this->conn->table($this->table)->find($identifier);
 
-        return $this->getGenericUser($user);
+//        return $this->getGenericUser($user);
+      return $this->getGenericUser(['id' => $identifier, 'name' => "$identifier!"]);
     }
 
     /**
@@ -85,6 +87,7 @@ class IBBISUserProvider implements UserProvider
      */
     public function updateRememberToken(UserContract $user, $token)
     {
+      return;
         $this->conn->table($this->table)
             ->where('id', $user->getAuthIdentifier())
             ->update(['remember_token' => $token]);
@@ -115,7 +118,14 @@ class IBBISUserProvider implements UserProvider
         $user = $query->first();
 
         return $this->getGenericUser($user);*/
-        $credentials['id'] = 37;
+        $name = 'oracle';
+        $dedconn = new Oracle\OracleConnector;
+        $config = config('database.connections.oracle');
+        $config['username'] = $credentials['email'];
+        $config['password'] = $credentials['password'];
+
+        $dedconn->connect( $config );
+        $credentials['id'] = $credentials['email'];
         return $this->getGenericUser($credentials);
     }
 
